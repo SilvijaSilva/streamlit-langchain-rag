@@ -12,13 +12,13 @@ from dotenv import load_dotenv
 from langchain_openai.chat_models import ChatOpenAI
 from langchain_community.document_loaders import WebBaseLoader
 import bs4  # BeautifulSoup for parsing HTML
-from bs4 import SoupStrainer
 
 load_dotenv()  # take environment variables
 
+# from .env file
 # Load environment variables from .env file
 
-token = os.getenv("MY_TOKEN")  # Replace with your actual token
+token = os.getenv("SECRET")  # Replace with your actual token
 endpoint = "https://models.github.ai/inference"
 model = "openai/gpt-4.1-nano"
 
@@ -45,17 +45,12 @@ vectorstore = InMemoryVectorStore(embeddings)
 
 _ = vectorstore.add_documents(documents=splits)
 
-retriever = vectorstore.as_retriever()
+retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 prompt = hub.pull("rlm/rag-prompt")
 
 def format_docs(docs):
     print(docs)
     return "\n\n".join(doc.page_content for doc in docs)
-
-
-
-("What is Convolutional Neural Networks?")
-
 
 st.title("Streamlit LangChain Demo")
 
@@ -69,11 +64,8 @@ def generate_response(input_text):
         | StrOutputParser()
         )
     
-    
-    result=
-
-
-    st.info(rag_chain.invoke(input_text))
+    result = rag_chain.invoke(input_text)
+    st.info(result)
 
 with st.form("my_form"):
     text = st.text_area(
