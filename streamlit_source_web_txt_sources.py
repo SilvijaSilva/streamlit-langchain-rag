@@ -39,7 +39,7 @@ local_docs = file_loader.load()
 all_docs = web_docs + local_docs
 
 # Split documents into chunks
-text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=10)
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=10)
 splits = text_splitter.split_documents(all_docs)
 
 # Create vector store
