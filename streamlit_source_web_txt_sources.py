@@ -39,7 +39,7 @@ local_docs = file_loader.load()
 all_docs = web_docs + local_docs
 
 # Split documents into chunks
-text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=10)
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=10)
 splits = text_splitter.split_documents(all_docs)
 
 # Create vector store
@@ -79,16 +79,16 @@ def generate_response(input_text):
     result = rag_chain.invoke(input_text)
     st.info(result)
 
-    st.subheader("📚 Sources")
+    st.subheader("📚 Informacijos šaltiniai")
     for i, doc in enumerate(fetched_docs, 1):
-        with st.expander(f"Source {i}"):
-            st.write(f"**Content:** {doc.page_content}")
+        with st.expander(f"Šaltinis {i}"):
+            st.write(f"**Turinys:** {doc.page_content}")
 
 # UI for user input
 with st.form("my_form"):
     text = st.text_area(
         "Įvesk klausimą:",
-        "Kokiai apskričiai priklauso Širvintos?",
+        "Kur yra Širvintos?",
     )
     submitted = st.form_submit_button("Pateikti")
     if submitted:
